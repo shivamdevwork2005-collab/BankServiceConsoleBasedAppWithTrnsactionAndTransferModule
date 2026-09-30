@@ -583,7 +583,6 @@ public class BankServiceImplOfPunjabNationalBank implements BankService {
      * Displays transaction history for a given account number.
      * This method searches across all banks (BOB, PNB, HDFC, SBI) to find the account
      * and its transactions, allowing cross-bank transaction viewing.
-     * 
      * param accountNo The account number for which to display transactions
      */
 
@@ -885,7 +884,16 @@ public class BankServiceImplOfPunjabNationalBank implements BankService {
 
     @Override
     public Customer findAccount(String accountId) {
-
-        return customers.get(accountId.trim());
+        // Search across all banks based on account number prefix
+        if(accountId.contains("BOB")){
+            return BankServiceImplOfBob.customers.get(accountId.trim());
+        }else if(accountId.contains("PNB")){
+            return BankServiceImplOfPunjabNationalBank.customers.get(accountId.trim());
+        }else if(accountId.contains("HDFC")){
+            return BankServiceImplOfHdfc.customers.get(accountId.trim());
+        }else if(accountId.contains("SBI")){
+            return BankServiceImplOfSbi.customers.get(accountId.trim());
+        }
+        return null;
     }
 }

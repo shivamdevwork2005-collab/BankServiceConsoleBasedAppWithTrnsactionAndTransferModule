@@ -828,7 +828,16 @@ public class BankServiceImplOfHdfc implements BankService {
 
     @Override
     public Customer findAccount(String accountId) {
-
-        return customers.get(accountId.trim());
+        // Search across all banks based on account number prefix
+        if(accountId.contains("BOB")){
+            return BankServiceImplOfBob.customers.get(accountId.trim());
+        }else if(accountId.contains("PNB")){
+            return BankServiceImplOfPunjabNationalBank.customers.get(accountId.trim());
+        }else if(accountId.contains("HDFC")){
+            return BankServiceImplOfHdfc.customers.get(accountId.trim());
+        }else if(accountId.contains("SBI")){
+            return BankServiceImplOfSbi.customers.get(accountId.trim());
+        }
+        return null;
     }
 }
